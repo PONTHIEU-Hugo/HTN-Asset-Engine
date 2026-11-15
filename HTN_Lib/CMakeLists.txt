@@ -25,4 +25,4 @@ target_include_directories(zlib_build INTERFACE
     "${ZLIB_DIR}/include"
 )
 
-target_link_libraries(htn PRIVATE zlib_build)
+target_link_libraries(htn PUBLIC zlib_build)

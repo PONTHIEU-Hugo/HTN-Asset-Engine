@@ -1,12 +1,7 @@
-﻿// AssetEngine.cpp : définit le point d'entrée de l'application.
-//
-
-#include "AssetEngine.h"
-
-using namespace std;
+﻿#include "AssetEngine.h"
 
 int main()
 {
-	cout << "Hello CMake." << endl;
+	std::cout << "Hello CMake." << std::endl;
 	return 0;
 }
