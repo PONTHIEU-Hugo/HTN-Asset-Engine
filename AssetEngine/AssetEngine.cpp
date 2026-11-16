@@ -2,14 +2,14 @@
 
 int main()
 {
-	std::string txt = "Yo la team comment ca va ? :3";
+	std::string txt = "Yo la team :3";
 	std::cout << "Start : " << txt << std::endl;
 
-	htn::Crypt::Encrypt(txt.data(), txt.size(), "Hugo Decrypt");
-	std::cout << "Encrypted : " << txt << std::endl;
+	std::string encrypted = htn::Crypt::AES_Encrypt(txt.data(), txt.size(), "Hugo");
+	std::cout << "Encrypted : " << encrypted << std::endl;
 
-	htn::Crypt::Decrypt(txt.data(), txt.size(), "Hugo Decrypt");
-	std::cout << "Decrypted : " << txt << std::endl;
+	std::string decrypted = htn::Crypt::AES_Decrypt(encrypted.data(), txt.size(), "Hugo");
+	std::cout << "Decrypted : " << decrypted << std::endl;
 
 	return 0;
 }
