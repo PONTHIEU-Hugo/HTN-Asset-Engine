@@ -18,7 +18,6 @@ namespace htn
 
 	private:
 		static Mat4x4i mAuxiliar;
-
 		static void InitAuxiliar();
 	};
 }
