@@ -11,4 +11,4 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET AssetEngine PROPERTY CXX_STANDARD 20)
 endif()
 
-# TODO: Ajoutez des tests et installez des cibles si nécessaire.
+# TODO: Ajoutez des tests et installez des cibles si nécessaire. 

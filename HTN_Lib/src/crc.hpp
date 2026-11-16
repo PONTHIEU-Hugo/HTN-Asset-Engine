@@ -10,7 +10,7 @@ namespace htn
 	struct Crc
 	{
 	public:
-		CRC32 Get(const uint8_t data[], size_t data_length)
+		static CRC32 Get(const uint8_t data[], size_t data_length)
 		{
 			CRC32 crc32 = 0xFFFFFFFFu;
 
