@@ -6,7 +6,7 @@
 add_library(htn STATIC
 	"src/compress.cpp"
 	"src/compress.h"
- "src/headers.h" "src/archive_header.h")
+ "src/headers.h" "src/archive_header.h" "src/CommandLine.cpp")
 
 target_include_directories(htn PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include

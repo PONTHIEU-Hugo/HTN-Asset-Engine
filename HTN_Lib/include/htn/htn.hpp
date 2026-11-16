@@ -5,4 +5,6 @@
 
 #include "../../src/compress.h"
 
+#include"../../src/CommandLine.h"
+
 #endif
