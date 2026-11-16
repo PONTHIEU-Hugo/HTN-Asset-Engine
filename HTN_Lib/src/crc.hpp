@@ -5,12 +5,14 @@
 
 namespace htn
 {
+	using CRC32 = uint32_t;
+
 	struct Crc
 	{
 	public:
-		uint32_t Get(const uint8_t data[], size_t data_length)
+		CRC32 Get(const uint8_t data[], size_t data_length)
 		{
-			uint32_t crc32 = 0xFFFFFFFFu;
+			CRC32 crc32 = 0xFFFFFFFFu;
 
 			if (table[255] == 0)
 				Init();
@@ -30,7 +32,7 @@ namespace htn
 
 		static void Init()
 		{
-			uint32_t crc32 = 1;
+			CRC32 crc32 = 1;
 
 			for (unsigned int i = 128; i; i >>= 1)
 			{
