@@ -45,4 +45,5 @@ bool htn::commandLineExe::CreateCommandOrder(std::vector<std::string> args)
 
 	m_commandOrder = { args[0],args[1], optArg };
 
+	return true;
 }
