@@ -3,6 +3,17 @@
 #
 
 #add the src cpp files here
+add_executable(HTN "htn.cpp"
+    "src/compress.cpp"
+	"src/compress.h"
+    "src/headers.h"
+    "src/archive_header.h"
+    "src/crypt.h"
+    "src/crypt.cpp"
+    "src/CommandLine.cpp"
+    "src/Mat4x4i.hpp"
+) 
+
 add_library(htn STATIC
 	"src/compress.cpp"
 	"src/compress.h"
@@ -31,3 +42,4 @@ target_include_directories(zlib_build INTERFACE
 )
 
 target_link_libraries(htn PUBLIC zlib_build)
+target_link_libraries(HTN PUBLIC zlib_build)
