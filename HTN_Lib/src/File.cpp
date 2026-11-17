@@ -5,7 +5,7 @@
 #include <zlib.h>
 
 #include "compress.h"
-#include "crc.hpp"
+#include "crc.h"
 
 namespace htn
 {
