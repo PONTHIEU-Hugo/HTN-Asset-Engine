@@ -2,30 +2,30 @@
 #define ARCHIVE_HEADER_H
 
 #include <stdint.h>
+#include "CompressionInfo.h"
 
 #define MAX_CHAR_NAME 32
 
-using offset_t = uint32_t;
-
 namespace htn
 {
+	using offset_t = uint64_t;
+
 	#pragma pack(push, 1)
 
 	struct ArchiveHeader
 	{
-		uint32_t crc32;
-		offset_t firstHeaderPos;
+		CompressionInfo compressionInfo = { 0, 0, 0 };	// Compression info of the footer block
+		offset_t firstFooterPos 		= 0;			// first footer position
 	};
 
-	struct ArchiveFileHeader
+	struct ArchiveFileFooter
 	{
-		uint32_t crc32;
-		uint32_t compressFileSize;
+		CompressionInfo compressionInfo = { 0, 0, 0 };	// Compression of the associated file
 
 		offset_t dataPos;
-		offset_t nextHeaderPos;
-
 		char name[MAX_CHAR_NAME];
+		
+		offset_t nextFooterPos;
 	};
 
 	#pragma pack(pop)

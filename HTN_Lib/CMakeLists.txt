@@ -4,9 +4,13 @@
 
 #add the src cpp files here
 add_library(htn STATIC
-	"src/compress.cpp"
-	"src/compress.h"
- "src/headers.h" "src/archive_header.h")
+    "src/headers.h" "src/archive_header.h"
+    "src/compress.h" "src/compress.cpp"
+    "src/CompressionInfo.h"
+    "src/Archive.h" "src/Archive.cpp"
+    "src/crc.hpp"
+    "src/File.h" "src/File.cpp" "src/File.inl"
+)
 
 target_include_directories(htn PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include

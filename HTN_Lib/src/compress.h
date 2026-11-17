@@ -3,15 +3,18 @@
 
 #include <zlib.h>
 #include <string>
+#include <cstdint>
 
 namespace htn
 {
-	struct Compress
+	namespace Compress
 	{
-		static uLong current_comp_size;
+		inline uLong current_comp_size = 0;
 
-		static std::string GetDeflatted(char* _input, size_t size);
-		static std::string GetInflatted(char* _input, size_t size, size_t compressed_size);
+		std::string GetDeflatted(uint8_t* input, size_t size);
+		uLong GetDeflattedBound(uint8_t* input, size_t size);
+
+		std::string GetInflatted(uint8_t* input, size_t size, size_t compressed_size);
 	};
 }
 

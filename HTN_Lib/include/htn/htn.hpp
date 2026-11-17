@@ -5,4 +5,6 @@
 
 #include "../../src/compress.h"
 
+#include "../../src/Archive.h"
+
 #endif
