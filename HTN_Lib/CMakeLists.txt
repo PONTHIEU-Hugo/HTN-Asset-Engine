@@ -6,9 +6,9 @@
 add_library(htn STATIC
     "src/headers.h" "src/archive_header.h"
     "src/compress.h" "src/compress.cpp"
-    "src/CompressionInfo.h"
-    "src/Archive.h" "src/Archive.cpp"
+    "src/CompressionInfo.h"    
     "src/crc.hpp"
+    "src/Archive.h" "src/Archive.cpp"
     "src/File.h" "src/File.cpp" "src/File.inl"
 )
 
