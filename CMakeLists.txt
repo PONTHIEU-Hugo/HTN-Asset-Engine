@@ -2,6 +2,8 @@
 # et incluez les sous-projets ici.
 #
 cmake_minimum_required (VERSION 3.10)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Activez Rechargement à chaud pour les compilateurs MSVC si cela est pris en charge.
 if (POLICY CMP0141)
