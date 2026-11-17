@@ -10,6 +10,7 @@ add_library(htn STATIC
     "src/archive_header.h"
     "src/crypt.h"
     "src/crypt.cpp"
+    "src/CommandLine.cpp"
     "src/Mat4x4i.hpp")
 
 target_include_directories(htn PUBLIC
