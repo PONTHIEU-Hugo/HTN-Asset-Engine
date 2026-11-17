@@ -1,15 +1,15 @@
 ﻿#include "AssetEngine.h"
 
-int main()
+int main(int argc, char* argv[])
 {
-	std::string txt = "Yo la team :3 comment ca va ugau le pontyeux mdr lol xdptdr";
-	std::cout << "Start : " << txt << std::endl;
+	std::string path(argv[0]);
+	std::vector<std::string> args = {};
 
-	std::string encrypted = htn::Crypt::AES_Encrypt(txt.data(), txt.size(), "Hugo Decrypte");
-	std::cout << "Encrypted : " << encrypted << std::endl;
-
-	std::string decrypted = htn::Crypt::AES_Decrypt(encrypted.data(), txt.size(), "Hugo Decrypte");
-	std::cout << "Decrypted : " << decrypted << std::endl;
+	for (int i = 1; i < argc; ++i)
+	{
+		std::string arg(argv[i]);
+		args.push_back(arg);
+	}
 
 	return 0;
 }
