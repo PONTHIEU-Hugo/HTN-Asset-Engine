@@ -9,20 +9,18 @@ namespace htn
 
 	struct CommandOrder
 	{
-		int commandType;
+		std::string commandType;
 		std::string path;
-		std::string newName;
+		std::string optArg;
 	};
 
-	struct commandLineExe
+	class commandLineExe
 	{
-		commandLineExe();
-		std::unordered_map<std::string, int > Actions;
-		std::vector<CommandOrder> commandOrders;
-		void CreateCommandOrder();
-		//void UpdateCommandLine();
-		bool AnalyseCommandOrder(std::string commandText);
-	
+		CommandOrder m_commandOrders;
+	public:
+		commandLineExe() {};
+		bool VerifyAction(std::string order);
+		bool CreateCommandOrder(std::vector<std::string> args);
 	};
 }
 

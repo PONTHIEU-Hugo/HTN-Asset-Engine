@@ -3,78 +3,45 @@
 #include <fstream>
 #include <unordered_map>
 #include "headers.h"
-#define COMPRESS 1528461536
 
-htn::commandLineExe::commandLineExe()
+
+
+bool htn::commandLineExe::VerifyAction(std::string order )
 {
-	std::cout << "command Lexic : <Action>  <Path>  <NewName>" << std::endl;;
-
-	Actions["compress"] = COMPRESS;
+	if (order == "create")
+		return true;
+	else if (order == "addFile")
+		return true;
+	else if (order == "removeFile")
+		return true;
+	else if (order == "encrypt")
+		return true;
+	else if (order == "decrypt")
+		return true;
+	else return false;
 }
 
-void htn::commandLineExe::CreateCommandOrder()
+bool htn::commandLineExe::CreateCommandOrder(std::vector<std::string> args)
 {
-	
-	std::string message;
-	if (!std::getline(std::cin, message)) {
-		std::cerr << "Error reading input.\n";
-		return ;
-	}
-	if (AnalyseCommandOrder(message))
-	{
-		//Execute command
-	}
-}
 
-bool htn::commandLineExe::AnalyseCommandOrder(std::string commandText)
-{
-	std::vector<int> start;
-	std::vector<int> end;
-	for (int i = 0; i < commandText.size(); i++)
-	{
-		if (commandText[i] == '<')
-			start.push_back(i +1);
-		else if (commandText[i] == '>')
-			end.push_back(i -1);
-	}
+	std::cout << "Action  : " << args[0] << std::endl;
 
-	if (start.size() < 2)
-	{
-		std::cout << "Lexic Error : Command Order have less than 2 syntax" << std::endl;
-		return false;
-	}
-	else if (start.size() != end.size())
-	{
-		std::cout << "Lexic Error : Command Order  have a syntax error " << std::endl;
-		return false;
-	}
-	std::string order = commandText.substr(start[0], end[0]);
-
-	std::cout << "Action  : " << order << std::endl;
-	if (Actions.find(order) == Actions.end())
+	if (VerifyAction(args[0]))
 	{
 		std::cout << "Lexic Error :  Order doesnt Exist" << std::endl;
 		return false;
 	}
 
-	std::string path = commandText.substr(start[1], end[1] - start[1]+1);
+	std::cout << " path : " << args[1] << std::endl;
 
-	std::ifstream file(path);
-	/*if (!file.is_open())
+	std::string optArg  = "";
+	if (args.size() > 2)
 	{
-		std::cout << "Error : File doesnt exist at the path" << std::endl;
-		return false;
-	}*/
-	std::cout << " path : " << path << std::endl;
-
-	std::string name = commandText.substr(start[2], end[2] - start[2] + 1);
-	if (name.size() > MAX_CHAR_NAME)
-	{
-		std::cout << "Error : name size too big" << std::endl;
-		return false;
+		optArg = args[2];
 	}
-	std::cout << "name : " << name << std::endl;
-	CommandOrder  co = { Actions[order],path,name };
-	commandOrders.push_back(co);
+
+	std::cout << "name : " << optArg << std::endl;
+
+	m_commandOrders = { args[0],args[1], optArg };
 
 }
