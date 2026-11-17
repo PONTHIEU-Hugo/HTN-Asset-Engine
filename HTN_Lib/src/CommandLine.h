@@ -16,7 +16,7 @@ namespace htn
 
 	class commandLineExe
 	{
-		CommandOrder m_commandOrders;
+		CommandOrder m_commandOrder;
 	public:
 		commandLineExe() {};
 		bool VerifyAction(std::string order);

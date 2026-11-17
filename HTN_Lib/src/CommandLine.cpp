@@ -23,10 +23,11 @@ bool htn::commandLineExe::VerifyAction(std::string order )
 
 bool htn::commandLineExe::CreateCommandOrder(std::vector<std::string> args)
 {
-
+	if (args.empty())
+		return false;
 	std::cout << "Action  : " << args[0] << std::endl;
 
-	if (VerifyAction(args[0]))
+	if (!VerifyAction(args[0]))
 	{
 		std::cout << "Lexic Error :  Order doesnt Exist" << std::endl;
 		return false;
@@ -40,8 +41,8 @@ bool htn::commandLineExe::CreateCommandOrder(std::vector<std::string> args)
 		optArg = args[2];
 	}
 
-	std::cout << "name : " << optArg << std::endl;
+	std::cout << "optional argument : " << optArg << std::endl;
 
-	m_commandOrders = { args[0],args[1], optArg };
+	m_commandOrder = { args[0],args[1], optArg };
 
 }
