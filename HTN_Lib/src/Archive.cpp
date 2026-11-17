@@ -5,7 +5,7 @@
 #include <cstring>
 
 #include "File.h"
-#include "crc.hpp"
+#include "crc.h"
 #include "compress.h"
 
 namespace htn

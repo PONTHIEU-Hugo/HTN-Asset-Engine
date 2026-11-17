@@ -5,6 +5,8 @@
 
 #include "../../src/compress.h"
 
-#include "../../src/Archive.h"
+//#include "../../src/Archive.h"
+
+#include "../../src/crc.h"
 
 #endif
