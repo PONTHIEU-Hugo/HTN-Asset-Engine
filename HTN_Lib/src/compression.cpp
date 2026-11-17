@@ -1,4 +1,5 @@
-#include "compress.h"
+#include "compression.h"
+#include "../zlib/zlib.h"
 
 namespace htn
 {

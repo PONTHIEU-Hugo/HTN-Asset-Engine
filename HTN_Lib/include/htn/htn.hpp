@@ -2,7 +2,7 @@
 #define HTN_HPP
 
 #include "../../src/headers.h"
-#include "../../src/compress.h"
+#include "../../src/compression.h"
 #include "../../src/crypt.h"
 
 #include"../../src/CommandLine.h"

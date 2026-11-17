@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "src/CommandLine.h"
+#include "include/htn/htn.hpp"
 
 int main(int argc, char* argv[])
 {
