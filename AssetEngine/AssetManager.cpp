@@ -32,7 +32,7 @@ void AssetManager::AddImage(std::string path, std::string archivePath)
 	}
 
 	HTNImgHeader hih ;
-	memcpy(hih.fileName, name.data(), 32);
+	memcpy(hih.fileName, name.data(), 31);
 	hih.height = hid.height;
 	hih.width = hid.width;
 	hih.dataSize = hih.height * hih.width;
