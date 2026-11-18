@@ -6,6 +6,7 @@
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/zlib")
 
 add_library(htn STATIC
+    "src/Defines.h"
     "src/CommandLine.cpp"
     "src/headers.h" "src/archive_header.h"
     "src/compression.h" "src/compression.cpp"
@@ -25,8 +26,10 @@ target_include_directories(htn PUBLIC
 target_link_libraries(htn PUBLIC zlibstatic)
 
 add_executable(HtnE "htn.cpp"
+    "src/Defines.h"
     "src/CommandLine.cpp"
-    "src/headers.h" "src/archive_header.h"
+    "src/headers.h" 
+    "src/archive_header.h"
     "src/compression.h" "src/compression.cpp"
     "src/CompressionInfo.h"
     "src/Mat4x4i.hpp"

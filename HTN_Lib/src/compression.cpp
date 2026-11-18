@@ -31,7 +31,14 @@ namespace htn
 
     uint64_t Compress::GetDeflattedBound(char *input, size_t size)
     {
-        return 0;
+        z_stream strm;
+        strm.next_in = (Bytef*)input;
+        strm.avail_in = size;
+        deflateInit(&strm, Z_DEFAULT_COMPRESSION);
+
+		uLong bound = deflateBound(&strm, size);
+		deflateEnd(&strm);
+        return bound;
     }
 
     std::string Compress::GetInflatted(char* _input, size_t size, size_t compressed_size)

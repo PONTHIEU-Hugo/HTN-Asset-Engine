@@ -17,8 +17,9 @@ namespace htn
 
     private:
         std::string mArchivePath = "";
-        ArchiveHeader mHeader;
+        ArchiveHeader mHeader{};
         File mFile;
+        int mOpenDepth = 0;
 
     public:
         Archive(std::string archivePath);
@@ -34,17 +35,19 @@ namespace htn
         /* Search in current archive the file file based on the name and remove it from the archive */
         void RemoveFile(File& file) { RemoveFile(file.GetName()); }
 
-        // void UpdateFile(File& file, std::vector<uint8_t>& newData);
-        // void UpdateFile(std::string fileName, std::vector<uint8_t>& newData);
-
         // Read
         void ReadFile(std::string fileName, std::vector<uint8_t>& outData);
 
-    private:
-        void RemoveAt(uint64_t offset, uint64_t size);
+        std::vector<std::string> GetFileNames();
 
-        void GetFooter(uint64_t offset, ArchiveFileFooter& out);
+    private:
+        bool IsFileExisting(std::string& name);
+
+        uint64_t GetFooter(std::string fileName, ArchiveFileFooter& footerFinded);
         uint64_t GetLastFooter(ArchiveFileFooter& out);
+
+        void OpenFooters();
+        void CloseFooters();
     };
 }
 
