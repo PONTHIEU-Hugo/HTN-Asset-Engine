@@ -7,7 +7,7 @@
 
 #include"../../src/CommandLine.h"
 
-//#include "../../src/Archive.h"
+#include "../../src/Archive.h"
 
 #include "../../src/crc.h"
 

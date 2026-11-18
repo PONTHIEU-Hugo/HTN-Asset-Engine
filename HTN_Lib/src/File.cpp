@@ -4,7 +4,7 @@
 #include <cstring>
 #include <zlib.h>
 
-#include "compress.h"
+#include "compression.h"
 #include "crc.h"
 
 namespace htn
@@ -16,7 +16,7 @@ namespace htn
         if(filePath[i] == '/' || filePath[i] == '\\')
             throw std::runtime_error("File path can't begin with / or \\");
         while(i >= 0 && (filePath[i] != '/' || filePath[i] != '\\'))
-            i++;
+            i--;
         mNameBegin = i + 1;
     }
 

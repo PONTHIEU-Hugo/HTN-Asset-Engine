@@ -6,7 +6,7 @@
 
 #include "File.h"
 #include "crc.h"
-#include "compress.h"
+#include "compression.h"
 
 namespace htn
 {

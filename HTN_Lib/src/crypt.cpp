@@ -1,4 +1,5 @@
 #include "crypt.h"
+#include <cstdint>
 
 namespace htn
 {
