@@ -3,7 +3,8 @@
 #
 
 # Ajoutez une source à l'exécutable de ce projet.
-add_executable (AssetEngine "AssetEngine.cpp" "AssetEngine.h")
+add_executable (AssetEngine "AssetEngine.cpp" "AssetEngine.h"
+"TgaLoader.cpp" "TgaLoader.h")
 
 target_link_libraries(AssetEngine PRIVATE htn)
 
