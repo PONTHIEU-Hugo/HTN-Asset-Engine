@@ -6,14 +6,16 @@
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/zlib")
 
 add_library(htn STATIC
-	"src/compression.cpp"
-	"src/compression.h"
-    "src/headers.h"
-    "src/archive_header.h"
-    "src/crypt.h"
-    "src/crypt.cpp"
     "src/CommandLine.cpp"
-    "src/Mat4x4i.hpp")
+    "src/headers.h" "src/archive_header.h"
+    "src/compression.h" "src/compression.cpp"
+    "src/CompressionInfo.h"
+    "src/Mat4x4i.hpp"
+    "src/crypt.h" "src/crypt.cpp"
+    "src/Archive.h" "src/Archive.cpp"
+    "src/crc.h" "src/crc.cpp"
+    "src/File.h" "src/File.cpp" "src/File.inl"
+)
 
 target_include_directories(htn PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -23,14 +25,15 @@ target_include_directories(htn PUBLIC
 target_link_libraries(htn PUBLIC zlibstatic)
 
 add_executable(HtnE "htn.cpp"
-    "src/compression.cpp"
-	"src/compression.h"
-    "src/headers.h"
-    "src/archive_header.h"
-    "src/crypt.h"
-    "src/crypt.cpp"
     "src/CommandLine.cpp"
+    "src/headers.h" "src/archive_header.h"
+    "src/compression.h" "src/compression.cpp"
+    "src/CompressionInfo.h"
     "src/Mat4x4i.hpp"
+    "src/crypt.h" "src/crypt.cpp"
+    "src/Archive.h" "src/Archive.cpp"
+    "src/crc.h" "src/crc.cpp"
+    "src/File.h" "src/File.cpp" "src/File.inl"
 ) 
 
 target_link_libraries(HtnE PUBLIC htn)

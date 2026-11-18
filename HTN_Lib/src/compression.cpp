@@ -29,7 +29,12 @@ namespace htn
         return output;
 	}
 
-	std::string Compress::GetInflatted(char* _input, size_t size, size_t compressed_size)
+    uint64_t Compress::GetDeflattedBound(char *input, size_t size)
+    {
+        return 0;
+    }
+
+    std::string Compress::GetInflatted(char* _input, size_t size, size_t compressed_size)
 	{
         std::string output = {};
         output.resize(size);

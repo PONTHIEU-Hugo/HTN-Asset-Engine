@@ -3,10 +3,12 @@
 #include <fstream>
 #include <filesystem>
 #include <cstring>
+#include <zlib.h>
 
 #include "File.h"
 #include "crc.h"
 #include "compression.h"
+#include <string>
 
 namespace htn
 {
@@ -47,10 +49,11 @@ namespace htn
         if(mHeader.firstFooterPos == 0) return; // No files in archive or problem in it
 
         size_t fileSize = fileData.size();
+        std::string fileCompressed = Compress::GetDeflatted((char*)fileData.data(), fileSize);
 
         // create file footer
         CRC32 fileCRC = Crc::Get(fileData.data(), fileSize);
-        uLong fileDeflattedBound = Compress::GetDeflattedBound(fileData.data(), fileSize);
+        uLong fileDeflattedBound = Compress::current_comp_size;
         ArchiveFileFooter lastFooter{};
         uint64_t lastFooterIndex = GetLastFooter(lastFooter);
 
@@ -70,7 +73,7 @@ namespace htn
         mFile.SaveData(mFile.GetData(), mHeader.firstFooterPos);
 
         // Paste file data
-        mFile.SaveData<std::string>(Compress::GetDeflatted(fileData.data(), fileSize), mHeader.firstFooterPos - fileFooter.compressionInfo.compressedSize);
+        mFile.SaveData<std::string>(fileCompressed, mHeader.firstFooterPos - fileFooter.compressionInfo.compressedSize);
 
 
         // Update footers targetDataPos and footer chain
@@ -159,7 +162,7 @@ namespace htn
 
         outData.resize(currentFooter.compressionInfo.decompressedSize);
         mFile.ExtractData(currentFooter.dataPos, currentFooter.compressionInfo.decompressedSize, outData);
-        Compress::GetInflatted(outData.data(), currentFooter.compressionInfo.decompressedSize, currentFooter.compressionInfo.compressedSize);
+        Compress::GetInflatted((char*)outData.data(), currentFooter.compressionInfo.decompressedSize, currentFooter.compressionInfo.compressedSize);
     }
 
     void Archive::RemoveAt(uint64_t offset, uint64_t size)
