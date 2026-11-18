@@ -3,7 +3,7 @@
 #
 
 # Ajoutez une source à l'exécutable de ce projet.
-add_executable (AssetEngine "AssetEngine.cpp" "AssetEngine.h")
+add_executable (AssetEngine "AssetEngine.cpp" "AssetEngine.h" "AssetManager.cpp" "AssetManager.h" "HTNCustomData.h" "HTNBmpData.h" "HTNBmpData.cpp")
 
 target_link_libraries(AssetEngine PRIVATE htn)
 
