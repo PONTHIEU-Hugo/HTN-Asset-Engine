@@ -22,7 +22,7 @@ target_include_directories(htn PUBLIC
 
 target_link_libraries(htn PUBLIC zlibstatic)
 
-add_executable(HTN "htn.cpp"
+add_executable(HtnE "htn.cpp"
     "src/compression.cpp"
 	"src/compression.h"
     "src/headers.h"
@@ -33,4 +33,4 @@ add_executable(HTN "htn.cpp"
     "src/Mat4x4i.hpp"
 ) 
 
-target_link_libraries(HTN PUBLIC htn)
+target_link_libraries(HtnE PUBLIC htn)

@@ -47,26 +47,8 @@ namespace htn
 			}
 		}
 
-		static MatGF4x4 Multiply(const MatGF4x4& M, const MatGF4x4& N)
-		{
-			MatGF4x4 O;
-			O.SetZero();
-
-			for (int i = 0; i < 4; ++i)
-			{
-				for (int j = 0; j < 4; ++i)
-				{
-					O.rows[i][j] += M.rows[i][j] * N.rows[j][i];
-				}
-			}
-
-			return O;
-		}
-
 		static std::vector<uint8_t> Multiply(const MatGF4x4& M, std::vector<uint8_t> row)
 		{
-			uint8_t m = 0x11b;
-
 			auto mul = [&](uint8_t a, uint8_t b) -> uint8_t
 				{
 					uint8_t result = 0;
