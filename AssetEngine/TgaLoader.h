@@ -2,22 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
-
-struct HTN_Pixel
-{
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
-	uint8_t a;
-};
-
-//TODO REMOVE
-struct HTNImgData
-{
-	uint32_t width;
-	uint32_t height;
-	std::vector<std::vector<HTN_Pixel>> pixels = {};
-};
+#include "HTNCustomData.h"
 
 #pragma pack(push, 1)
 struct TgaColorMapSpe

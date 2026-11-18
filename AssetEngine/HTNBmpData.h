@@ -39,6 +39,7 @@ struct BMP_Pixel
     T g;
     T r;
 };
+#pragma pack(pop)
 
 struct BMPLoader
 {

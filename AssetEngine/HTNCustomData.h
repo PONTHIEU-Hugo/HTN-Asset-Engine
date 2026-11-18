@@ -28,6 +28,6 @@ struct HTNImgData
 {
 	uint32_t width;
 	uint32_t height;
-	std::vector<HTN_Pixel> pixels = {};
+	std::vector<std::vector<HTN_Pixel>> pixels = {};
 };
 #endif

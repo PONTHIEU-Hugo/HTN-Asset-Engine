@@ -21,7 +21,6 @@ void AssetManager::AddImage(std::string path, std::string archivePath)
 	if (path.find(".bmp"));
 	{
 		hid = BMPLoader::Load(path);
-
 	}
 	std::string name;
 
@@ -33,7 +32,7 @@ void AssetManager::AddImage(std::string path, std::string archivePath)
 			name.push_back(c);
 	}
 
-	HTNImgHeader hih ;
+	HTNImgHeader hih = {};
 	memcpy(hih.fileName, name.data(), MAX_CHAR_NAME-1);
 	hih.height = hid.height;
 	hih.width = hid.width;

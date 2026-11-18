@@ -14,23 +14,35 @@ const HTNImgData BMPLoader::Load(std::string const& path)
     file.read(reinterpret_cast<char*>(&bdh), sizeof(BMP_DIB_Header));
     file.seekg(bh.imageDataOffset);
 
-    HTNImgData hid;
+    HTNImgData out;
+    out.width = (uint32_t)bdh.biWidth;
+    out.height = (uint32_t)bdh.biHeight;
 
-    hid.width = (uint32_t)bdh.biWidth;
-    hid.height =(uint32_t)bdh.biHeight;
-   
+    out.pixels.resize(out.width);
+    for (std::vector<HTN_Pixel>& h : out.pixels)
+    {
+        h.resize(out.height);
+    }
+
     const int size = bdh.biWidth * bdh.biHeight;
 
     std::vector<BMP_Pixel<uint8_t>> BMPpixels;
     BMPpixels.resize(size);
 
-
     file.read(reinterpret_cast<char*>(BMPpixels.data()), sizeof(BMP_Pixel<uint8_t>) * size);
 
-    for (BMP_Pixel<uint8_t> pixelData : BMPpixels)
+    for (int i = 0; i < size; ++i)
     {
-        hid.pixels.push_back({ pixelData.r , pixelData.g , pixelData.b , 1 });
+        int x = i % out.width;
+        int y = (out.height - 1) - i / out.width;
+
+        BMP_Pixel<uint8_t>& bmpP = BMPpixels[i];
+        HTN_Pixel& p = out.pixels[x][y];
+        p.r = bmpP.r;
+        p.g = bmpP.g;
+        p.b = bmpP.b;
+        p.a = 255;
     }
 
-    return hid;
+    return out;
 }
