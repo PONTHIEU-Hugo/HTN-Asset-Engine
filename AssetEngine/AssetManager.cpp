@@ -3,6 +3,8 @@
 #include <iostream>
 #include "HTNBmpData.h"
 #include "HTNCustomData.h"
+#include <htn/htn.hpp>
+
 void AssetManager::AddImage(std::string path, std::string archivePath)
 {
 	std::fstream file (path);
@@ -32,7 +34,7 @@ void AssetManager::AddImage(std::string path, std::string archivePath)
 	}
 
 	HTNImgHeader hih ;
-	memcpy(hih.fileName, name.data(), 31);
+	memcpy(hih.fileName, name.data(), MAX_CHAR_NAME-1);
 	hih.height = hid.height;
 	hih.width = hid.width;
 	hih.dataSize = hih.height * hih.width;
