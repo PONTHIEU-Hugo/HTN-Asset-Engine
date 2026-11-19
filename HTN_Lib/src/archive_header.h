@@ -2,6 +2,7 @@
 #define ARCHIVE_HEADER_H
 
 #include <stdint.h>
+#include <string>
 #include "CompressionInfo.h"
 
 #define MAX_CHAR_NAME 32
@@ -14,8 +15,8 @@ namespace htn
 
 	struct ArchiveHeader
 	{
-		CompressionInfo compressionInfo = { 0, 0, 0 };	// Compression info of the footer block
-		offset_t firstFooterPos 		= 0;			// first footer position
+		CompressionInfo compressionInfo = { 0, 0, 0 };				// Compression info of the footer block
+		offset_t firstFooterPos 		= sizeof(ArchiveHeader);	// first footer position
 	};
 
 	struct ArchiveFileFooter

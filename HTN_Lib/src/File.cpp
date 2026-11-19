@@ -4,6 +4,7 @@
 #include <cstring>
 #include <zlib.h>
 
+#include "Defines.h"
 #include "compression.h"
 #include "crc.h"
 
@@ -12,10 +13,19 @@ namespace htn
     htn::File::File(std::string filePath) : 
 	    mFilePath(filePath)
     {
+        std::ifstream file(filePath);
+        if(file.good() == false)
+        {
+            std::ofstream creationFile(filePath);
+            mIsNew = true;
+            creationFile.close();
+        }
+        file.close();
+
         size_t i = filePath.size() - 1;
         if(filePath[i] == '/' || filePath[i] == '\\')
             throw std::runtime_error("File path can't begin with / or \\");
-        while(i >= 0 && (filePath[i] != '/' || filePath[i] != '\\'))
+        while(i < uint64_t_max && filePath[i] != '/' && filePath[i] != '\\')
             i--;
         mNameBegin = i + 1;
     }
@@ -44,6 +54,7 @@ namespace htn
         if (file.is_open() == false)
             throw std::runtime_error("Couldn't open file: " + mFilePath + " to extract data");
 
+        file.seekg(beginPoint);
         file.read(reinterpret_cast<char*>(mData.data()), extractionSize);
         file.close();
     }
@@ -59,6 +70,7 @@ namespace htn
         if (file.is_open() == false)
             throw std::runtime_error("Couldn't open file: " + mFilePath + " to extract data");
 
+        file.seekg(beginPoint);
         file.read(reinterpret_cast<char*>(output.data()), extractionSize);
         file.close();
     }
@@ -75,10 +87,10 @@ namespace htn
 
     void File::SaveData(std::vector<uint8_t>& rData, bool adding, std::string outputPath)
     {
-        std::ios::openmode openMode = std::ios::binary | std::ios::out | (adding == true ? std::ios::app : std::ios::trunc);
+        std::ios::openmode openMode = std::ios::binary | std::ios::out | (adding == true ? std::ios::app : std::ios::trunc) | std::ios::in;
         std::string& outpath = outputPath == "" ? mFilePath : outputPath;
 
-        std::ofstream file(outpath, openMode);
+        std::fstream file(outpath, openMode);
         if (file.is_open() == false)
             throw std::runtime_error("Couldn't open file: " + outpath + " to save");
 
@@ -88,10 +100,10 @@ namespace htn
 
     void File::SaveData(std::vector<uint8_t> &rData, uint64_t filePosition, std::string outputPath)
     {
-        std::ios::openmode openMode = std::ios::binary | std::ios::out;
+        std::ios::openmode openMode = std::ios::binary | std::ios::out | std::ios::in;
         std::string& outpath = outputPath == "" ? mFilePath : outputPath;
 
-        std::ofstream file(outpath, openMode);
+        std::fstream file(outpath, openMode);
         if (file.is_open() == false)
             throw std::runtime_error("Couldn't open file: " + outpath + " to save");
 
@@ -99,4 +111,48 @@ namespace htn
         file.write(reinterpret_cast<char*>(rData.data()), rData.size());
         file.close();
     }
+
+    void File::SaveData(char *rData, uint64_t dataSize, uint64_t filePosition, std::string outputPath)
+    {
+        std::ios::openmode openMode = std::ios::binary | std::ios::out | std::ios::in;
+        std::string& outpath = outputPath == "" ? mFilePath : outputPath;
+
+        std::fstream file(outpath, openMode);
+        if (file.is_open() == false)
+            throw std::runtime_error("Couldn't open file: " + outpath + " to save");
+
+        file.seekp(filePosition);
+        file.write(rData, dataSize);
+        file.close();
+    }
+
+    void File::RemoveAt(uint64_t offset, uint64_t size)
+    {
+        uint64_t fileSize = std::filesystem::file_size(mFilePath);
+        int error = 0;
+        if(fileSize < offset)
+            error = 1;
+        else if(fileSize < size)
+            error = 2;
+        else if(size + offset > fileSize)
+            error = 3;
+
+        switch (error)
+        {
+        case 1:
+            throw std::runtime_error("File size was smaller than offset in RemoveAt");
+        case 2:
+            throw std::runtime_error("File size was smaller than size in RemoveAt");
+        case 3:
+            throw std::runtime_error("File size was smaller than size + offset in RemoveAt");
+        default:
+            break;
+        }
+            
+
+        ExtractData(offset + size, fileSize - (offset + size));
+        SaveData(GetData(), offset);
+        std::filesystem::resize_file(mFilePath, fileSize - size);
+    }
+    
 }
