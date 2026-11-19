@@ -41,44 +41,15 @@ namespace htn
 			Archive t(path);
 			std::cout << "Archive created at " << path << std::endl;
 		}
-		else if (action == "addFile")
+		else if (action == "addFiles")
 		{
-			if (args.size() != 3)
+			if (args.size() < 3)
 			{
-				std::cerr << "3 arguments required !\n";
+				std::cerr << "Minimum 3 arguments required !\n";
 				return false;
 			}
 
 			std::string archive_path = args[1];
-			std::string file_path = args[2];
-
-			if (!File::IsFileExists(archive_path, ".htn"))
-			{
-				std::cout << "Archive not found at " << archive_path << std::endl;
-				return false;
-			}
-
-			if (!File::IsFileExists(file_path))
-			{
-				std::cerr << "File not found at " << archive_path << std::endl;
-				return false;
-			}
-
-			Archive t(archive_path);
-			t.AddFile(file_path);
-
-			std::cout << "Successfully added " << file_path << " at " << archive_path << std::endl;
-		}
-		else if (action == "removeFile")
-		{
-			if (args.size() != 3)
-			{
-				std::cerr << "3 arguments required !\n";
-				return false;
-			}
-
-			std::string archive_path = args[1];
-			std::string file_name = args[2];
 
 			if (!File::IsFileExists(archive_path, ".htn"))
 			{
@@ -88,13 +59,51 @@ namespace htn
 
 			Archive t(archive_path);
 			
-			if (t.RemoveFile(file_name))
+			for (int i = 2; i < args.size(); ++i)
 			{
-				std::cout << "Successfully removed " << file_name << std::endl;
+				std::string file_path = args[i];
+
+				if (!File::IsFileExists(file_path))
+				{
+					std::cerr << "File not found at " << archive_path << std::endl;
+					continue;
+				}
+
+				t.AddFile(file_path);
+
+				std::cout << "Successfully added " << file_path << " at " << archive_path << std::endl;
 			}
-			else
+		}
+		else if (action == "removeFiles")
+		{
+			if (args.size() < 3)
 			{
-				std::cout << "Failed to remove " << file_name << std::endl;
+				std::cerr << "Minimum 3 arguments required !\n";
+				return false;
+			}
+
+			std::string archive_path = args[1];
+		
+			if (!File::IsFileExists(archive_path, ".htn"))
+			{
+				std::cout << "Archive not found at " << archive_path << std::endl;
+				return false;
+			}
+
+			Archive t(archive_path);
+
+			for (int i = 2; i < args.size(); ++i)
+			{
+				std::string file_name = args[i];
+
+				if (t.RemoveFile(file_name))
+				{
+					std::cout << "Successfully removed " << file_name << std::endl;
+				}
+				else
+				{
+					std::cout << "Failed to remove " << file_name << std::endl;
+				}
 			}
 		}
 		else if (action == "getFileNames")
@@ -257,11 +266,11 @@ namespace htn
 				"createArchive {pathAndName}\n"
 				"-> createArchive 'reallycoolpath/archive_name.htn'\n\n"
 
-				"addFile {pathArchive} {filePath}\n"
-				"-> addFile 'reallycoolpath/archive_name.htn' 'path2/file_name.bmp'\n\n"
+				"addFiles {pathArchive} {filePath}... {otherFilePath}\n"
+				"-> addFiles 'reallycoolpath/archive_name.htn' 'path2/file_name.bmp' 'path/truc.bmp'\n\n"
 
-				"removeFile {pathArchive} {fileName}\n"
-				"-> removeFile 'reallycoolpath/archive_name.htn' 'file_name.bmp'\n\n"
+				"removeFiles {pathArchive} {fileName}... {otherFileName}\n"
+				"-> removeFiles 'reallycoolpath/archive_name.htn' 'file_name.bmp' 'truc.bmp'\n\n"
 
 				"getFileNames {pathArchive}\n"
 				"-> getFileNames 'reallycoolpath/archive_name.htn'\n\n"

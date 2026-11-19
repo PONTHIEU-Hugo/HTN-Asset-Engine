@@ -1,5 +1,7 @@
 #include "AssetManager.h"
 #include "AssetManager.h"
+#include "AssetManager.h"
+#include "AssetManager.h"
 #include <fstream>
 #include <iostream>
 #include "HTNBmpData.h"
@@ -7,67 +9,71 @@
 #include <htn/htn.hpp>
 #include "TgaLoader.h"
 
-void AssetManager::AddImage(std::string path, std::string archivePath)
+void AssetManager::AddImages(std::string archivePath, std::vector<std::string> imgPaths)
 {
-	std::fstream file (path);
-	if (!file.is_open())
-	{
-		std::cout << "path error : cant read the file " << std::endl;
-		return;
-	}
-
-	HTNImgData hid;
-
-	if (path.find(".bmp") != std::string::npos)
-	{
-		hid = BMPLoader::Load(path);
-	}
-	else if (path.find(".tga") != std::string::npos)
-	{
-		hid = TgaLoader::Load(path);
-	}
-	else
-	{
-		std::cout << "Not a valid format ! Need a .bmp or .tga\n";
-		return;
-	}
-	std::string name;
-
-	for (char c : path)
-	{
-		if (c == '/')
-			name.clear();
-		else
-			name.push_back(c);
-	}
-
-	HTNImgHeader hih = {};
-	memcpy(hih.fileName, name.data(), MAX_CHAR_NAME-1);
-	hih.height = hid.height;
-	hih.width = hid.width;
-	hih.dataSize = hih.height * hih.width;
-	hih.imageDataOffset = sizeof(HTNImgHeader) + EMPTY_SPACE_BSIZE;
-
-	std::vector <uint8_t> data;
-	data.resize(hih.imageDataOffset + hid.width * hid.height * sizeof(HTN_Pixel));
-
-
-	memcpy(data.data(), &hih, sizeof(HTNImgHeader));
-
-	size_t offset = hih.imageDataOffset;
-
-	for (std::vector<HTN_Pixel>& rowPixel : hid.pixels)
-	{
-		memcpy(data.data() + offset, rowPixel.data(), hid.height * sizeof(HTN_Pixel));
-
-		offset += hid.height * sizeof(HTN_Pixel);
-	}
-
 	htn::Archive archive(archivePath);
-	archive.AddFile(data, name);
+
+	for (std::string& path : imgPaths)
+	{
+		std::fstream file(path);
+		if (!file.is_open())
+		{
+			std::cout << "path error : cant read file at " << path << std::endl;
+			continue;
+		}
+
+		HTNImgData hid;
+
+		if (path.find(".bmp") != std::string::npos)
+		{
+			hid = BMPLoader::Load(path);
+		}
+		else if (path.find(".tga") != std::string::npos)
+		{
+			hid = TgaLoader::Load(path);
+		}
+		else
+		{
+			std::cout << "Not a valid format ! Need a .bmp or .tga\n";
+			return;
+		}
+		std::string name;
+
+		for (char c : path)
+		{
+			if (c == '/')
+				name.clear();
+			else
+				name.push_back(c);
+		}
+
+		HTNImgHeader hih = {};
+		memcpy(hih.fileName, name.data(), MAX_CHAR_NAME - 1);
+		hih.height = hid.height;
+		hih.width = hid.width;
+		hih.dataSize = hih.height * hih.width;
+		hih.imageDataOffset = sizeof(HTNImgHeader) + EMPTY_SPACE_BSIZE;
+
+		std::vector <uint8_t> data;
+		data.resize(hih.imageDataOffset + hid.width * hid.height * sizeof(HTN_Pixel));
+
+
+		memcpy(data.data(), &hih, sizeof(HTNImgHeader));
+
+		size_t offset = hih.imageDataOffset;
+
+		for (std::vector<HTN_Pixel>& rowPixel : hid.pixels)
+		{
+			memcpy(data.data() + offset, rowPixel.data(), hid.height * sizeof(HTN_Pixel));
+
+			offset += hid.height * sizeof(HTN_Pixel);
+		}
+
+		archive.AddFile(data, name);
+	}
 }
 
-void AssetManager::RemoveImage(std::string name, std::string archivePath)
+void AssetManager::RemoveImages(std::string archivePath, std::vector<std::string> imgNames)
 {
 	if (!htn::File::IsFileExists(archivePath, ".htn"))
 	{
@@ -76,10 +82,13 @@ void AssetManager::RemoveImage(std::string name, std::string archivePath)
 	}
 
 	htn::Archive archive(archivePath);
-	archive.RemoveFile(name);
+	for (std::string& name : imgNames)
+	{
+		archive.RemoveFile(name);
+	}
 }
 
-HTNImgData AssetManager::LoadImage(std::string name, std::string archivePath)
+HTNImgData AssetManager::LoadImage(std::string archivePath, std::string name)
 {
 	std::vector<uint8_t> data = {};
 	htn::Archive archive(archivePath);

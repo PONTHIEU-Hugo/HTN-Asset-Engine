@@ -9,9 +9,9 @@
 class AssetManager
 {
 public:
-	static void AddImage(std::string path, std::string archivePath);
-	static void RemoveImage(std::string name, std::string archivePath);
-	static HTNImgData LoadImage(std::string name, std::string archivePath);
+	static void AddImages(std::string archivePath, std::vector<std::string> imgPaths);
+	static void RemoveImages(std::string archivePath, std::vector<std::string> imgNames);
+	static HTNImgData LoadImage(std::string archivePath, std::string name);
 };
 
 
