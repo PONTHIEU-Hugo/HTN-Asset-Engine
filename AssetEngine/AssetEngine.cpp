@@ -7,6 +7,7 @@ int main()
 	AssetManager asset;
 
 	asset.AddImage(HTN_SRC_DIR"../chat.bmp","archive");
+	asset.LoadImage("chat.bmp", "archive");
 	// std::string path("D:/source/Cours GTECH3/Asset-Engine/AssetEngine/");
 	// std::string testPath(path + "test.htn");
 	// Archive test(testPath);

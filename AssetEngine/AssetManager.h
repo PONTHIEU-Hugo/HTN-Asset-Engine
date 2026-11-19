@@ -2,13 +2,14 @@
 #define HTNASSETMANAGER_H
 
 #include <string>
+#include "HTNCustomData.h"
 
 class AssetManager
 {
 public:
 	AssetManager() {};
 	void AddImage(std::string path, std::string archivePath);
-	void LoadImage(std::string name, std::string archivePath);
+	HTNImgData LoadImage(std::string name, std::string archivePath);
 };
 
 
