@@ -8,10 +8,28 @@
 #include "compression.h"
 #include "crc.h"
 
+#include "crypt.h"
+
 namespace htn
 {
-    htn::File::File(std::string filePath) : 
-	    mFilePath(filePath)
+    bool File::IsFileExists(std::string& path, std::string extension)
+    {
+        if (extension != "NONE")
+        {
+            size_t ext_size = extension.size();
+            std::string ext = path.substr(path.size() - ext_size, ext_size);
+
+            if (ext != extension)
+                return false;
+        }
+
+        std::ifstream file(path); 
+        bool result = file.good();
+
+        return result;
+    }
+
+    File::File(std::string filePath) : mFilePath(filePath)
     {
         std::ifstream file(filePath);
         if(file.good() == false)
@@ -153,6 +171,52 @@ namespace htn
         ExtractData(offset + size, fileSize - (offset + size));
         SaveData(GetData(), offset);
         std::filesystem::resize_file(mFilePath, fileSize - size);
+    }
+
+    void File::Encrypt(std::string key, std::string outputPath)
+    {
+        ExtractData();
+
+        std::string e = Crypt::AES_Encrypt((char*)mData.data(), mData.size(), key);
+
+        if (outputPath == "")
+        {
+            mData.resize(e.size());
+            memcpy(mData.data(), e.data(), e.size());
+            SaveData();
+        }
+        else
+        {
+            File f(outputPath + "encrypted_" + GetName());
+            f.GetData().resize(e.size());
+
+            memcpy(f.GetData().data(), e.data(), e.size());
+
+            f.SaveData();
+        }
+    }
+
+    void File::Decrypt(std::string key, std::string outputPath)
+    {
+        ExtractData();
+
+        std::string d = Crypt::AES_Decrypt((char*)mData.data(), mData.size(), key);
+
+        if (outputPath == "")
+        {
+            mData.resize(d.size());
+            memcpy(mData.data(), d.data(), d.size());
+            SaveData();
+        }
+        else
+        {
+            File f(outputPath + "decrypted_" + GetName());
+            f.GetData().resize(d.size());
+
+            memcpy(f.GetData().data(), d.data(), d.size());
+
+            f.SaveData();
+        }
     }
     
 }

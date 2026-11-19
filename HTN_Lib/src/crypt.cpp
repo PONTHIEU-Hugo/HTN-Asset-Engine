@@ -126,15 +126,16 @@ namespace htn
 		return output;
 	}
 
-	std::string Crypt::AES_Decrypt(char* data, size_t size, std::string key)
+	std::string Crypt::AES_Decrypt(char* data, size_t encrypted_size, std::string key)
 	{
 		if (mAuxiliar.rows[0][0] == 1)
 			InitAuxiliar();
 
-		size_t mat_amounts = 1 + (size - 1) / 16;
+		size_t mat_amounts = 1 + (encrypted_size - 1) / 16;
+		size_t origin_data_count = 0;
 
 		std::string output = {};
-		output.resize((size + 15) / 16 * 16);
+		output.resize((encrypted_size + 15) / 16 * 16);
 
 		const int old_key_size = key.size();
 		int padding = (16 - old_key_size) % 16;
@@ -212,12 +213,16 @@ namespace htn
 				for (size_t j = 0; j < 4; ++j)
 				{
 					size_t offset = mat_offset + i * 4 + j;		
+
 					output[offset] = m.rows[i][j];
+
+					if (output[offset] != 0)
+						origin_data_count++;
 				}
 			}
 		}
 
-		output.resize(size);
+		//output.resize(origin_data_count);
 		return output;
 	}
 }

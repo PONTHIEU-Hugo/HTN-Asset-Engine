@@ -31,12 +31,12 @@ namespace htn
         void AddFile(std::vector<uint8_t>& fileData, std::string name);
 
         /* Search in current archive the file named fileName and remove it from the archive */
-        void RemoveFile(std::string fileName);
+        bool RemoveFile(std::string fileName);
         /* Search in current archive the file file based on the name and remove it from the archive */
         void RemoveFile(File& file) { RemoveFile(file.GetName()); }
 
         // Read
-        void ReadFile(std::string fileName, std::vector<uint8_t>& outData);
+        bool ReadFile(std::string fileName, std::vector<uint8_t>& outData);
 
         std::vector<std::string> GetFileNames();
 

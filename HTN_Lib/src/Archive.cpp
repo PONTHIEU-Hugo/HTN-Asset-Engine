@@ -100,13 +100,13 @@ namespace htn
         CloseFooters();
     }
 
-    void Archive::RemoveFile(std::string fileName)
+    bool Archive::RemoveFile(std::string fileName)
     {
         OpenFooters();
         if(mHeader.firstFooterPos == headerSize) 
         {
             CloseFooters();
-            return; // No files in archive or problem in it
+            return false; // No files in archive or problem in it
         }
 
         // Archive State => [H][A][B][C][fA][fB][fC]
@@ -118,7 +118,7 @@ namespace htn
         if(targetFooter.dataPos == 0) 
         {
             CloseFooters();
-            return;    // Quit function if not in archive
+            return false;    // Quit function if not in archive
         }
 
         // Size of the footer which we want to delete & of the file        
@@ -144,7 +144,7 @@ namespace htn
             mHeader.firstFooterPos = headerSize;
             mFile.SaveData<ArchiveHeader>(mHeader);
             CloseFooters();
-            return;
+            return true;
         }
 
         // Archive State => [H][A][C][fA][fC]
@@ -181,15 +181,16 @@ namespace htn
             mFile.SaveData<ArchiveFileFooter>(currentFooter, currentPos);
         }
         CloseFooters();
+        return true;
     }
 
-    void Archive::ReadFile(std::string fileName, std::vector<uint8_t> &outData)
+    bool Archive::ReadFile(std::string fileName, std::vector<uint8_t> &outData)
     {
         OpenFooters();
         if(mHeader.firstFooterPos == headerSize)
         {
             CloseFooters();
-            throw std::runtime_error("Archive is empty");
+            return false;
         }
 
         ArchiveFileFooter currentFooter{};
@@ -204,7 +205,7 @@ namespace htn
         if(currentFooter.nextFooterPos == 0 && strName != fileName)
         {
             CloseFooters();
-            return;    // Quit function if not in archive
+            return false;    // Quit function if not in archive
         }
 
         mFile.ExtractData(currentFooter.dataPos, currentFooter.compressionInfo.compressedSize, outData);
@@ -214,6 +215,7 @@ namespace htn
         memcpy(outData.data(), decompressedString.data(), currentFooter.compressionInfo.decompressedSize);
 
         CloseFooters();
+        return true;
     }
 
     std::vector<std::string> Archive::GetFileNames()
@@ -221,10 +223,10 @@ namespace htn
         std::vector<std::string> fileNames(0);
         if(mHeader.firstFooterPos == headerSize)
         {
-            OpenFooters();
             return fileNames;
         }
 
+        OpenFooters();
         ArchiveFileFooter currentFooter{};
         mFile.ExtractData<ArchiveFileFooter>(currentFooter, mHeader.firstFooterPos);
 

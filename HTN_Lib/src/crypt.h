@@ -13,7 +13,7 @@ namespace htn
 	{
 	public:
 		static std::string AES_Encrypt(char* data, size_t size, std::string key);
-		static std::string AES_Decrypt(char* data, size_t size, std::string key);
+		static std::string AES_Decrypt(char* data, size_t encrypted_size, std::string key);
 
 	private:
 		static MatGF4x4 mAuxiliar;
