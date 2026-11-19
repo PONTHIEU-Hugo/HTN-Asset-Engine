@@ -23,7 +23,7 @@ namespace htn
 
 		bool found = true;
 
-		if (action == "create")
+		if (action == "createArchive")
 		{
 			if (args.size() != 2)
 			{
@@ -254,8 +254,8 @@ namespace htn
 			std::string txt =
 				"- GUIDE TO USE THE HTN LIB -\n\n"
 				"Actions : \n\n"
-				"create {pathAndName}\n"
-				"-> create 'reallycoolpath/archive_name.htn'\n\n"
+				"createArchive {pathAndName}\n"
+				"-> createArchive 'reallycoolpath/archive_name.htn'\n\n"
 
 				"addFile {pathArchive} {filePath}\n"
 				"-> addFile 'reallycoolpath/archive_name.htn' 'path2/file_name.bmp'\n\n"

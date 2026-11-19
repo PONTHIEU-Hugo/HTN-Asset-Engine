@@ -4,12 +4,14 @@
 #include <string>
 #include "HTNCustomData.h"
 
+#define EMPTY_SPACE_BSIZE 44
+
 class AssetManager
 {
 public:
-	AssetManager() {};
-	void AddImage(std::string path, std::string archivePath);
-	HTNImgData LoadImage(std::string name, std::string archivePath);
+	static void AddImage(std::string path, std::string archivePath);
+	static void RemoveImage(std::string name, std::string archivePath);
+	static HTNImgData LoadImage(std::string name, std::string archivePath);
 };
 
 

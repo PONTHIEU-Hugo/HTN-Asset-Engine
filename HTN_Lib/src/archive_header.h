@@ -5,7 +5,7 @@
 #include <string>
 #include "CompressionInfo.h"
 
-#define MAX_CHAR_NAME 32
+#define MAX_CHAR_NAME 64
 
 namespace htn
 {

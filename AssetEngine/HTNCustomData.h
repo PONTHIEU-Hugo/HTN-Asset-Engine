@@ -3,11 +3,12 @@
 
 #include <iostream>
 #include <vector>
+#include <htn/htn.hpp>
 
 #pragma pack(push ,1)
 struct HTNImgHeader
 {
-	unsigned char fileName[32];
+	unsigned char fileName[MAX_CHAR_NAME];
 	uint32_t width;
 	uint32_t height;
 	uint64_t dataSize;
