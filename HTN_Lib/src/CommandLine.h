@@ -4,23 +4,15 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include "Archive.h"
+
 namespace htn
 {
-
-	struct CommandOrder
+	class CommandLine
 	{
-		std::string commandType;
-		std::string path;
-		std::string optArg;
-	};
-
-	class commandLineExe
-	{
-		CommandOrder m_commandOrder;
 	public:
-		commandLineExe() {};
-		bool VerifyAction(std::string order);
-		bool CreateCommandOrder(std::vector<std::string> args);
+		static void CreateCommandOrder(std::vector<std::string> args);
+		static bool HandleCommand(std::vector<std::string> args);
 	};
 }
 

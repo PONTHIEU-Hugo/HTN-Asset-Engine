@@ -22,6 +22,8 @@ namespace htn
         std::vector<uint8_t> mData;
 
     public:
+        static bool IsFileExists(std::string& path, std::string extension = "NONE");
+
         File(std::string filePath);
         ~File() = default;
 
@@ -47,6 +49,9 @@ namespace htn
         void SaveData(const T& data, uint64_t filePosition = 0, std::string outputPath = "");
 
         void RemoveAt(uint64_t offset, uint64_t size);
+
+        void Encrypt(std::string key, std::string outputPath = "");
+        void Decrypt(std::string key, std::string outputPath = "");
     };
 } // namespace htn
 

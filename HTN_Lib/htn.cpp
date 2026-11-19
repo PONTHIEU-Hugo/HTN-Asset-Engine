@@ -5,10 +5,7 @@
 
 int main(int argc, char* argv[])
 {
-	std::string path(argv[0]);
 	std::vector<std::string> args = {};
-
-	htn::commandLineExe cLineExe;
 
 	for (int i = 1; i < argc; ++i)
 	{
@@ -16,6 +13,7 @@ int main(int argc, char* argv[])
 		args.push_back(arg);
 	}
 
-	cLineExe.CreateCommandOrder(args);
+	htn::CommandLine::CreateCommandOrder(args);
+
 	return 0;
 }
